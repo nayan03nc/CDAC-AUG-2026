@@ -1,0 +1,42 @@
+import java.util.Scanner;
+
+class GreatestNo{
+public static void main (String args[]){
+ Scanner sc = new Scanner(System.in);
+ System.out.print("Enter your First Number:");
+ int first =sc.nextInt();
+
+ System.out.print("Enter your Second Number:");
+ int second =sc.nextInt();
+
+ System.out.print("Enter your Third Number:");
+ int third =sc.nextInt();
+ 
+if(first>second){
+
+if(first>third){
+System.out.print("first number is greatest");
+}
+else{
+System.out.print("third Number is greatest");
+}
+
+}
+
+else{
+ 
+if(second>third){
+System.out.print("second Number is greatest");
+}
+else{
+System.out.print("third Number is greatest");
+}
+
+}
+}
+}
+
+
+
+
+ 
