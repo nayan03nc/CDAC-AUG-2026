@@ -1,0 +1,18 @@
+import java.util.Scanner;
+class IspositiveNo {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter your Number:");
+        int number=sc.nextInt();
+
+       if(number>0)
+          {
+              System.out.print("Given number is positive");
+                      }
+
+      else
+          {
+              System.out.println("Given number is Not positive");
+                        }
+}
+}
