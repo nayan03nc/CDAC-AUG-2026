@@ -1,0 +1,14 @@
+import java.util.Scanner;
+
+class AreaOfsqr{
+public static void main (String args[]){
+ Scanner sc = new Scanner(System.in);
+ System.out.print("Enter your side value:");
+ int side =sc.nextInt();
+ int Area = side * side;
+
+
+ System.out.print("Area of square is:"+Area+"cm");
+
+}
+}
