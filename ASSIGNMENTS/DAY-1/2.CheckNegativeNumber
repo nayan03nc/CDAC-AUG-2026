@@ -1,3 +1,5 @@
+//Write a Java program that checks if a predefined number is negative using an if-else statement and displays the result. 
+
 import java.util.Scanner;
 
 class IsNegativeNo{
