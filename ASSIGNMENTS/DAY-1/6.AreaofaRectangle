@@ -1,0 +1,17 @@
+import java.util.Scanner;
+
+class AreaOfrec{
+public static void main (String args[]){
+ Scanner sc = new Scanner(System.in);
+ System.out.print("Enter your length value:");
+ int length =sc.nextInt();
+ System.out.print("Enter your breadth value:");
+ int breadth =sc.nextInt();
+
+ int Area = length * breadth;
+
+
+ System.out.print("Area of rectangle is:"+Area+"cm");
+
+}
+}
