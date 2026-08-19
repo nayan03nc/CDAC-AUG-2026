@@ -1,0 +1,49 @@
+import java.util.Scanner;
+class DaysOfWeek{
+	public static void main(String args[]){
+	Scanner sc = new Scanner(System.in);
+	System.out.print("Enter Number Between 1 To 7:");
+
+	int dayNO = sc.nextInt();
+
+
+switch(dayNO){
+	case 1:
+		System.out.print("day 1 is: Monday");
+	break;
+
+	case 2:
+		System.out.print("day 2 is: Tuesday");
+	break;
+
+	case 3:
+		System.out.print("day 3 is: Wednesday");
+
+	break;
+	
+	case 4:
+		System.out.print("dau 4 is: Thursday");
+
+	break;
+	
+	case 5:
+		System.out.print("day 5 is: Friday");
+
+	break;
+
+	case 6:
+		System.out.print("day 6 is: Saturday");
+
+	break;
+	
+	case 7:
+		System.out.print(" day 7 is: Sunday");
+
+	break;
+
+	default:
+		System.out.print("invalid number");
+	break;
+}
+}
+}
