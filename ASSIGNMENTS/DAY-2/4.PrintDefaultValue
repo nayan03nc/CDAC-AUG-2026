@@ -1,0 +1,25 @@
+class PrintVarvalue{
+
+	byte b;
+	short s;
+	char c;
+	int i;
+	long l;
+	float f;
+	double d;
+	boolean o;
+
+public static void main (String args[]){
+	
+ 	PrintVarvalue v = new PrintVarvalue();
+
+	System.out.println("Default value of Byte:"+v.b);
+	System.out.println("Default value of Short:"+v.s);
+	System.out.println("Default value of char:"+v.c);
+	System.out.println("Default value of Int:"+v.i);
+	System.out.println("Default value of Long:"+v.l);
+	System.out.println("Default value of Float:"+v.f);
+	System.out.println("Default value of Double:"+v.d);
+	System.out.println("Default value of Boolean:"+v.o);
+}
+}
