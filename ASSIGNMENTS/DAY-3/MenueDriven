@@ -1,0 +1,136 @@
+import java.util.Scanner;
+class MenueDriven{
+	
+byte b;
+short s;
+char c;
+int i;
+long l;
+float f;
+double d;
+boolean o;
+
+public static void methodEvaluation(){
+Scanner sc = new Scanner(System.in);
+System.out.print("Enter Your Marks of Maths:");
+int maths = sc.nextInt();
+System.out.print("Enter Your Marks of Science:");
+int science =sc.nextInt();
+System.out.print("Enter Your Marks of History:");
+int history = sc.nextInt();
+
+int avg;
+
+avg= (maths+science+history)/3;
+if(avg>=90){
+System.out.print("You Got Grade:A");
+}
+
+else if(avg>=70){
+System.out.print("You Got Grade:B");
+}
+else if(avg>=50){
+System.out.print("You Got Grade:C");
+}
+else if(avg>=30){
+System.out.print("You Got Grade:D");
+}
+else {
+System.out.print("You FAIL");
+}
+}
+
+public static void DaysOfWeek(){
+
+
+Scanner sc = new Scanner(System.in);
+System.out.print("Enter The Day Number:");
+int num= sc.nextInt();
+switch(num){
+case 1:System.out.print("Monday");
+break;
+case 2:System.out.print("Tuesday");
+break;
+case 3:System.out.print("Wednesday");
+break;
+case 4:System.out.print("Thrusday");
+break;
+case 5:System.out.print("Friday");
+break;
+case 6:System.out.print("Saturday");
+break;
+case 7:System.out.print("Sunday");
+break;
+default:System.out.print("Invalid Number.");
+break;
+
+
+}
+
+
+}
+
+
+public static void defaultVal(){
+
+       	MenueDriven v = new MenueDriven();
+  System.out.println("Default value of Byte:"+v.b);
+	System.out.println("Default value of Short:"+v.s);
+	System.out.println("Default value of char:"+v.c);
+	System.out.println("Default value of Int:"+v.i);
+	System.out.println("Default value of Long:"+v.l);
+	System.out.println("Default value of Float:"+v.f);
+	System.out.println("Default value of Double:"+v.d);
+	System.out.println("Default value of Boolean:"+v.o); 
+
+       
+
+}
+
+public static void leapYear(){
+Scanner sc = new Scanner(System.in);
+System.out.print("Enter The Year:");
+int year=sc.nextInt();
+
+if((year%4==0 && year%100!=0) || year%400==0 )
+{
+System.out.print("Entered year "+year+" is leap year.");
+}
+else{
+System.out.print(year+" is not leap year.");
+}
+
+
+}
+
+public static void main(String args[]){
+
+Scanner sc = new Scanner(System.in);
+System.out.println("Problem 1:Grade Evaluation System");
+System.out.println("Problem 2:Leap Year check");
+System.out.println("Problem 3:Day of the week");
+System.out.println("Problem 4:Identify the Default value of variables");
+System.out.println("5:Exist");
+System.out.println("");
+System.out.print("Please Enter the Problem Number:");
+int problem = sc.nextInt();
+
+
+switch(problem){
+ case 1:methodEvaluation();
+  break;
+ case 2:leapYear();
+  break;
+ case 3:DaysOfWeek();
+  break;
+ case 4:defaultVal();
+  break;
+ case 5:System.out.print("You are Exist Successfully.");
+  break;
+ default:System.out.print("There is no Such Problem In list");
+  break;
+}
+
+
+}
+}
