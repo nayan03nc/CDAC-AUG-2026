@@ -1,0 +1,21 @@
+import java.util.Scanner;
+class PositiveNum{
+
+public static void askForPositiveNum(){
+Scanner sc = new Scanner(System.in);
+int num;
+
+do{
+
+System.out.print("Enter the positive number:");
+num = sc.nextInt();
+
+} while(num<=0);
+
+}
+
+public static void main(String args[]){
+
+askForPositiveNum();
+}
+}
