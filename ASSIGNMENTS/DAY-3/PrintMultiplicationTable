@@ -1,0 +1,23 @@
+import java.util.Scanner;
+
+class Table{
+
+public static void printTable(int num){
+for(int i = 1 ; i<=10 ; i++){
+int table;
+table=num*i;
+System.out.println(num+" * "+i+" = "+table);
+}
+}
+
+
+public static void main (String args[]){
+
+Scanner sc = new Scanner(System.in);
+System.out.print("Enter your Number:");
+int num= sc.nextInt();
+
+ printTable(num);
+}
+
+}
