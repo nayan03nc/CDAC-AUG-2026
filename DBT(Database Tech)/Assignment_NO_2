@@ -1,0 +1,547 @@
+mysql> show databases;
++---------------------------+
+| Database                  |
++---------------------------+
+| collage_db                |
+| company                   |
+| college_db                |
+| information_schema        |
+| library_management_system |
+| mysql                     |
+| performance_schema        |
+| pharmadb                  |
+| shop_stores               |
+| sys                       |
++---------------------------+
+10 rows in set (0.06 sec)
+
+mysql> use company;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_company |
++-------------------+
+| department        |
++-------------------+
+1 row in set (0.04 sec)
+
+mysql> select * from department;
++---------+-----------+----------+
+| dept_id | dept_name | location |
++---------+-----------+----------+
+|     101 | IT        | pune     |
+|     102 | HR        | mumbai   |
+|     103 | Finance   | nagpur   |
+|     104 | marketing | amravati |
+|     105 | Sales     | Nashik   |
++---------+-----------+----------+
+5 rows in set (0.04 sec)
+
+mysql> create table employee (emp_id int primary key , emp_name varchar(50),email varchar(50), salary int , hire_date date , dept_id int , manager_id int);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into employee
+    -> values
+    -> (1,'rahul','rahul@gmail.com',45000,'2024-01-15',101);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into employee
+    -> values
+    -> (1,'rahul','rahul@gmail.com',45000,'2024-01-15',101, );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 3
+mysql> insert into employee
+    -> values
+    -> (1,'rahul','rahul@gmail.com',45000,'2024-01-15',101,null);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into employee
+    -> values
+    -> (1,'rahul','rahul@gmail.com',45000,'2024-01-15',101,null);
+ERROR 1062 (23000): Duplicate entry '1' for key 'employee.PRIMARY'
+mysql> insert into employee
+    -> values
+    -> (1,'rahul','rahul@gmail.com',45000,'2024-01-15',101,null),
+    -> (2,'priya','priya@gmail.com',55000,'2023-06-10',102,1),
+    -> (3,'amit','amit@gmail.com',35000,'2025-02-20',101,1),
+    -> (4,'sneha','sneha@gmail.com',60000,'2022-11-05',103,2),
+    -> (5,'rohan','rohan@gmail.com',40000,'2024-08-12',104,2),
+    -> (6,'puja','puja@gmail.com',50000,'2023-03-18',1045,1),
+    -> (7,'karan','karan@gmail.com',30000,'2025-05-25',101,3),
+    -> (8,'neha','neha@gmail.com',65000,'2021-09-01',103,4),
+    -> (9,'akash','akash@gmail.com',45000,'2024-12-10',102,2),
+    -> (10,'snehal','snehal@gmail.com',38000,'2025-07-14',104,5);
+ERROR 1062 (23000): Duplicate entry '1' for key 'employee.PRIMARY'
+mysql> (2,'priya','priya@gmail.com',55000,'2023-06-10',102,1),
+    -> (3,'amit','amit@gmail.com',35000,'2025-02-20',101,1),
+    -> (4,'sneha','sneha@gmail.com',60000,'2022-11-05',103,2),
+    -> (5,'rohan','rohan@gmail.com',40000,'2024-08-12',104,2),
+    -> (6,'puja','puja@gmail.com',50000,'2023-03-18',1045,1),
+    -> (7,'karan','karan@gmail.com',30000,'2025-05-25',101,3),
+    -> (8,'neha','neha@gmail.com',65000,'2021-09-01',103,4),
+    -> (9,'akash','akash@gmail.com',45000,'2024-12-10',102,2),
+    -> (10,'snehal','snehal@gmail.com',38000,'2025-07-14',104,5);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '2,'priya','priya@gmail.com',55000,'2023-06-10',102,1),
+(3,'amit','amit@gmail.com' at line 1
+mysql> (2,'priya','priya@gmail.com',55000,'2023-06-10',102,1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '2,'priya','priya@gmail.com',55000,'2023-06-10',102,1)' at line 1
+mysql> insert into employee
+    -> values
+    -> (2,'priya','priya@gmail.com',55000,'2023-06-10',102,1),
+    -> (3,'amit','amit@gmail.com',35000,'2025-02-20',101,1),
+    -> (4,'sneha','sneha@gmail.com',60000,'2022-11-05',103,2),
+    -> (5,'rohan','rohan@gmail.com',40000,'2024-08-12',104,2),
+    -> (6,'puja','puja@gmail.com',50000,'2023-03-18',1045,1),
+    -> (7,'karan','karan@gmail.com',30000,'2025-05-25',101,3),
+    -> (8,'neha','neha@gmail.com',65000,'2021-09-01',103,4),
+    -> (9,'akash','akash@gmail.com',45000,'2024-12-10',102,2),
+    -> (10,'snehal','snehal@gmail.com',38000,'2025-07-14',104,5);
+Query OK, 9 rows affected (0.01 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++--------+----------+------------------+--------+------------+---------+------------+
+| emp_id | emp_name | email            | salary | hire_date  | dept_id | manager_id |
++--------+----------+------------------+--------+------------+---------+------------+
+|      1 | rahul    | rahul@gmail.com  |  45000 | 2024-01-15 |     101 |       NULL |
+|      2 | priya    | priya@gmail.com  |  55000 | 2023-06-10 |     102 |          1 |
+|      3 | amit     | amit@gmail.com   |  35000 | 2025-02-20 |     101 |          1 |
+|      4 | sneha    | sneha@gmail.com  |  60000 | 2022-11-05 |     103 |          2 |
+|      5 | rohan    | rohan@gmail.com  |  40000 | 2024-08-12 |     104 |          2 |
+|      6 | puja     | puja@gmail.com   |  50000 | 2023-03-18 |    1045 |          1 |
+|      7 | karan    | karan@gmail.com  |  30000 | 2025-05-25 |     101 |          3 |
+|      8 | neha     | neha@gmail.com   |  65000 | 2021-09-01 |     103 |          4 |
+|      9 | akash    | akash@gmail.com  |  45000 | 2024-12-10 |     102 |          2 |
+|     10 | snehal   | snehal@gmail.com |  38000 | 2025-07-14 |     104 |          5 |
++--------+----------+------------------+--------+------------+---------+------------+
+10 rows in set (0.00 sec)
+
+mysql> alter table employee
+    -> add column phone_number varchar(15);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++--------+----------+------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email            | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com  |  45000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com  |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com   |  35000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com  |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com  |  40000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com   |  50000 | 2023-03-18 |    1045 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com  |  30000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com   |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com  |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com |  38000 | 2025-07-14 |     104 |          5 | NULL         |
++--------+----------+------------------+--------+------------+---------+------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> update employee
+    -> set salary=50000
+    -> where emp_id=5;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++--------+----------+------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email            | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com  |  45000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com  |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com   |  35000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com  |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com  |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com   |  50000 | 2023-03-18 |    1045 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com  |  30000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com   |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com  |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com |  38000 | 2025-07-14 |     104 |          5 | NULL         |
++--------+----------+------------------+--------+------------+---------+------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> GRANT SELECT ON college.employee TO 'readonly_user'@'localhost';
+ERROR 1410 (42000): You are not allowed to create a user with GRANT
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (11,'supriya','supriya@gmail.com',65000,'2024-06-1',103,1);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> (11,'supriya','supriya@gmail.com',65000,'2024-06-1',103,1,null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '11,'supriya','supriya@gmail.com',65000,'2024-06-1',103,1,null)' at line 1
+mysql> insert into employee
+    -> values
+    -> (11,'supriya','supriya@gmail.com',65000,'2024-06-1',103,1,null);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> selec * from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selec * from employee' at line 1
+mysql> select * from employee;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  45000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  35000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |    1045 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  30000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+11 rows in set (0.00 sec)
+
+mysql> update employee
+    -> set dept_id=104
+    -> where emp_id=6;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  45000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  35000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  30000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+11 rows in set (0.00 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from employee;
++--------+----------+------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email            | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com  |  45000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com  |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com   |  35000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com  |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com  |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com   |  50000 | 2023-03-18 |    1045 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com  |  30000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com   |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com  |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com |  38000 | 2025-07-14 |     104 |          5 | NULL         |
++--------+----------+------------------+--------+------------+---------+------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> start transaction
+    -> ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (11,'supriya','supriya@gmail.com',65000,'2024-06-1',103,1,null);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> update employee
+    -> set dept_id=104
+    -> where emp_id=6;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from employee;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  45000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  35000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  30000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+11 rows in set (0.00 sec)
+
+mysql> update employee
+    -> set salary=70000
+    -> where dept_id=101;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from employee;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+11 rows in set (0.00 sec)
+
+mysql> select * from employee
+    -> where salary>50000;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+7 rows in set (0.00 sec)
+
+mysql> update employee
+    -> set salary=salary*1.1
+    -> where dept_id=101;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from employee;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  77000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  77000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  77000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+11 rows in set (0.00 sec)
+
+mysql> select dept_name,count(*)
+    -> from department as d , employee as e
+    -> where d.dept_id=e.dept_id
+    -> group by dept_name;
++-----------+----------+
+| dept_name | count(*) |
++-----------+----------+
+| IT        |        3 |
+| HR        |        2 |
+| Finance   |        3 |
+| marketing |        3 |
++-----------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee
+    -> \c
+mysql> select emp_name , location
+    -> from department as d , employee as e
+    -> where d.dept_id=e.dept_id and d.location='mumbai';
++----------+----------+
+| emp_name | location |
++----------+----------+
+| priya    | mumbai   |
+| akash    | mumbai   |
++----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select emp_name , max(salary)
+    -> from employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'college.employee.emp_name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select max(salary)
+    -> from employee;
++-------------+
+| max(salary) |
++-------------+
+|       77000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) as heigher salary
+    -> from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'salary
+from employee' at line 1
+mysql> select max(salary) as heigher_salary
+    -> from employee;
++----------------+
+| heigher_salary |
++----------------+
+|          77000 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary)
+    -> from employee
+    -> where salary<(select max(salary) from employee);
++-------------+
+| max(salary) |
++-------------+
+|       65000 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> select max(salary) as 2nd_highestSalary
+    -> from employee
+    -> where salary<(select max(salary) from employee);
++-------------------+
+| 2nd_highestSalary |
++-------------------+
+|             65000 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select salary as 2nd_highSal
+    -> from employee
+    -> where salary<(select max(salary) from employee);
++-------------+
+| 2nd_highSal |
++-------------+
+|       55000 |
+|       60000 |
+|       50000 |
+|       50000 |
+|       65000 |
+|       45000 |
+|       38000 |
+|       65000 |
++-------------+
+8 rows in set (0.00 sec)
+
+mysql> select salary as second_highestSalary
+    -> from employee
+    -> order by salary
+    -> \c
+mysql> select salary as second_highestSalary
+    -> from employee
+    -> order by salary desc
+    -> limit 1 offset 1;
++----------------------+
+| second_highestSalary |
++----------------------+
+|                77000 |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> sorry
+    -> \c
+mysql> select salary as second_highestSalary
+    -> from employee
+    -> order by salary desc
+    -> limit 1 offset 3;
++----------------------+
+| second_highestSalary |
++----------------------+
+|                65000 |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> select emp_name,hire_date
+    -> from employee
+    -> order by hire_date desc;
++----------+------------+
+| emp_name | hire_date  |
++----------+------------+
+| snehal   | 2025-07-14 |
+| karan    | 2025-05-25 |
+| amit     | 2025-02-20 |
+| akash    | 2024-12-10 |
+| rohan    | 2024-08-12 |
+| supriya  | 2024-06-01 |
+| rahul    | 2024-01-15 |
+| priya    | 2023-06-10 |
+| puja     | 2023-03-18 |
+| sneha    | 2022-11-05 |
+| neha     | 2021-09-01 |
++----------+------------+
+11 rows in set (0.00 sec)
+
+mysql> select emp_name,hire_date as joiningDate
+    -> from employee
+    -> order by hire_date desc;
++----------+-------------+
+| emp_name | joiningDate |
++----------+-------------+
+| snehal   | 2025-07-14  |
+| karan    | 2025-05-25  |
+| amit     | 2025-02-20  |
+| akash    | 2024-12-10  |
+| rohan    | 2024-08-12  |
+| supriya  | 2024-06-01  |
+| rahul    | 2024-01-15  |
+| priya    | 2023-06-10  |
+| puja     | 2023-03-18  |
+| sneha    | 2022-11-05  |
+| neha     | 2021-09-01  |
++----------+-------------+
+11 rows in set (0.00 sec)
+
+mysql> alter table department
+    -> rename column dept_name to DepartmentName;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from department;
++---------+----------------+----------+
+| dept_id | DepartmentName | location |
++---------+----------------+----------+
+|     101 | IT             | pune     |
+|     102 | HR             | mumbai   |
+|     103 | Finance        | nagpur   |
+|     104 | marketing      | amravati |
+|     105 | Sales          | Nashik   |
++---------+----------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> truncate table employee;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> select * from employee;
+Empty set (0.01 sec)
+
+mysql> desc employee;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| emp_id       | int         | NO   | PRI | NULL    |       |
+| emp_name     | varchar(50) | YES  |     | NULL    |       |
+| email        | varchar(50) | YES  |     | NULL    |       |
+| salary       | int         | YES  |     | NULL    |       |
+| hire_date    | date        | YES  |     | NULL    |       |
+| dept_id      | int         | YES  |     | NULL    |       |
+| manager_id   | int         | YES  |     | NULL    |       |
+| phone_number | varchar(15) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.03 sec)
+
+mysql> rollback;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from employee;
+Empty set (0.00 sec)
+
+mysql>
+
+
