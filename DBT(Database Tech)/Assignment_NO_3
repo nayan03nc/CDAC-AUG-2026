@@ -1,0 +1,648 @@
+mysql> show databases;
++---------------------------+
+| Database                  |
++---------------------------+
+| collage_db                |
+| company                   |
+| college_db                |
+| information_schema        |
+| library_management_system |
+| mysql                     |
+| performance_schema        |
+| pharmadb                  |
+| shop_stores               |
+| sys                       |
++---------------------------+
+10 rows in set (0.00 sec)
+
+mysql> use company;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_company |
++-------------------+
+| department        |
+| employee          |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee;
+Empty set (0.00 sec)
+
+mysql> INSERT INTO employee
+    -> (emp_id, emp_name, email, salary, hire_date, dept_id, manager_id, phone_number)
+    -> VALUES
+    -> (1, 'rahul', 'rahul@gmail.com', 70000, '2024-01-15', 101, NULL, NULL),
+    -> (2, 'priya', 'priya@gmail.com', 55000, '2023-06-10', 102, 1, NULL),
+    -> (3, 'amit', 'amit@gmail.com', 70000, '2025-02-20', 101, 1, NULL),
+    -> (4, 'sneha', 'sneha@gmail.com', 60000, '2022-11-05', 103, 2, NULL),
+    -> (5, 'rohan', 'rohan@gmail.com', 50000, '2024-08-12', 104, 2, NULL),
+    -> (6, 'puja', 'puja@gmail.com', 50000, '2023-03-18', 104, 1, NULL),
+    -> (7, 'karan', 'karan@gmail.com', 70000, '2025-05-25', 101, 3, NULL),
+    -> (8, 'neha', 'neha@gmail.com', 65000, '2021-09-01', 103, 4, NULL),
+    -> (9, 'akash', 'akash@gmail.com', 45000, '2024-12-10', 102, 2, NULL),
+    -> (10, 'snehal', 'snehal@gmail.com', 38000, '2025-07-14', 104, 5, NULL),
+    -> (11, 'supriya', 'supriya@gmail.com', 65000, '2024-06-01', 103, 1, NULL);
+Query OK, 11 rows affected (0.02 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+11 rows in set (0.00 sec)
+
+mysql> select sum(salary) as total_salary
+    -> from employee;
++--------------+
+| total_salary |
++--------------+
+|       638000 |
++--------------+
+1 row in set (0.01 sec)
+
+mysql> select * from department;
++---------+----------------+----------+
+| dept_id | DepartmentName | location |
++---------+----------------+----------+
+|     101 | IT             | pune     |
+|     102 | HR             | mumbai   |
+|     103 | Finance        | nagpur   |
+|     104 | marketing      | amravati |
+|     105 | Sales          | Nashik   |
++---------+----------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select DepartmentName, avg(salary) as avgSalary
+    -> from DepartmentName as d , employee as e
+    -> where d.dept_id=e.dept_id
+    -> group by DepartmentName;
+ERROR 1146 (42S02): Table 'college.departmentname' doesn't exist
+mysql> select DepartmentName, avg(salary)
+    -> from employee as e , department as d
+    -> where e.dept_id=d.dept_id;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'college.d.DepartmentName'; this is incompatible with sql_mode=only_full_group_by
+mysql> select DepartmentName, avg(salary)
+    -> from employee, department
+    -> where employee.dept_id=department.dept_id
+    -> group by DepartmentName;
++----------------+-------------+
+| DepartmentName | avg(salary) |
++----------------+-------------+
+| IT             |  70000.0000 |
+| HR             |  50000.0000 |
+| Finance        |  63333.3333 |
+| marketing      |  46000.0000 |
++----------------+-------------+
+4 rows in set (0.01 sec)
+
+mysql> select DepartmentName, count(dept_id) as total_employee
+    -> from employee as e , department as d
+    -> where e.dept_id=d.dept_id
+    -> group by DepartmentName;
+ERROR 1052 (23000): Column 'dept_id' in field list is ambiguous
+mysql> select DepartmentName , count(*) as total_employee
+    -> from employee as e, department as d
+    -> where e.dept_id=d.dept_id
+    -> group by DepartmentName;
++----------------+----------------+
+| DepartmentName | total_employee |
++----------------+----------------+
+| IT             |              3 |
+| HR             |              2 |
+| Finance        |              3 |
+| marketing      |              3 |
++----------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> select DepartmentName , count(*) as total_employee
+    -> from employee as e , department as d
+    -> where e.dept_id=d.dept_id
+    -> group by DepartmentName
+    -> having count(*) as total_employee>5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'as total_employee>5' at line 5
+mysql> select DepartmentName , count(*) as total_employee
+    -> from employee as e, department as d
+    -> where e.dept_id=d.dept_id
+    -> group by DepartmentName
+    -> having count(*)>5;
+Empty set (0.01 sec)
+
+mysql> select distinct(location)
+    -> from department;
++----------+
+| location |
++----------+
+| pune     |
+| mumbai   |
+| nagpur   |
+| amravati |
+| Nashik   |
++----------+
+5 rows in set (0.00 sec)
+
+mysql> select emp_name , salary
+    -> \c
+mysql> select emp_name , max(salary) as highestSalary_emp
+    -> from employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'college.employee.emp_name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select emp_name , max(salary) as highestSalary_emp
+    -> from employee
+    -> group by emp_name;
++----------+-------------------+
+| emp_name | highestSalary_emp |
++----------+-------------------+
+| rahul    |             70000 |
+| priya    |             55000 |
+| amit     |             70000 |
+| sneha    |             60000 |
+| rohan    |             50000 |
+| puja     |             50000 |
+| karan    |             70000 |
+| neha     |             65000 |
+| akash    |             45000 |
+| snehal   |             38000 |
+| supriya  |             65000 |
++----------+-------------------+
+11 rows in set (0.00 sec)
+
+mysql> select emp_name , max(salary) as highestSalary_emp
+    -> from employee
+    -> group by salary;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'college.employee.emp_name' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select max(salary)
+    -> from employee;
++-------------+
+| max(salary) |
++-------------+
+|       70000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary)as highestSalary
+    -> from employee;
++---------------+
+| highestSalary |
++---------------+
+|         70000 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select count(emp_id) as total_employee
+    -> from employee;
++----------------+
+| total_employee |
++----------------+
+|             11 |
++----------------+
+1 row in set (0.02 sec)
+
+mysql> select emp_name
+    -> from employee
+    -> like a%;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'like a%' at line 3
+mysql> select emp_name
+    -> from employee
+    -> like 'a%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'like 'a%'' at line 3
+mysql> select emp_name
+    -> from employee
+    -> where emp_name like 'a%';
++----------+
+| emp_name |
++----------+
+| amit     |
+| akash    |
++----------+
+2 rows in set (0.01 sec)
+
+mysql> select emp_name
+    -> from employee
+    -> where emp_name like '%n';
++----------+
+| emp_name |
++----------+
+| rohan    |
+| karan    |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select emp_name
+    -> where emp_name like 'a%';\c
+ERROR 1054 (42S22): Unknown column 'emp_name' in 'field list'
+mysql> select emp_name as nameEndwith_A
+    -> from employee
+    -> where emp_name like '%a';
++---------------+
+| nameEndwith_A |
++---------------+
+| priya         |
+| sneha         |
+| puja          |
+| neha          |
+| supriya       |
++---------------+
+5 rows in set (0.00 sec)
+
+mysql> select emp_name as nameSart_with_A
+    -> where emp_name like 'a%';
+ERROR 1054 (42S22): Unknown column 'emp_name' in 'field list'
+mysql>  select emp_name as nameStart_with_A
+    -> from employee
+    -> where emp_name like 'a%';
++------------------+
+| nameStart_with_A |
++------------------+
+| amit             |
+| akash            |
++------------------+
+2 rows in set (0.00 sec)
+
+mysql>  select emp_name as nameEnd_with_N
+    -> from employee
+    -> where emp_name like '%n';
++----------------+
+| nameEnd_with_N |
++----------------+
+| rohan          |
+| karan          |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select emp_name as nameContain_ra
+    -> where emp_name like '%ra%';
+ERROR 1054 (42S22): Unknown column 'emp_name' in 'field list'
+mysql> select emp_name as nameContain_ra
+    -> from employee
+    -> where emp_name like '%ra%';
++----------------+
+| nameContain_ra |
++----------------+
+| rahul          |
+| karan          |
++----------------+
+2 rows in set (0.00 sec)
+
+mysql> select emp_name,salary
+    -> from employee
+    -> order by salary desc;
++----------+--------+
+| emp_name | salary |
++----------+--------+
+| rahul    |  70000 |
+| amit     |  70000 |
+| karan    |  70000 |
+| neha     |  65000 |
+| supriya  |  65000 |
+| sneha    |  60000 |
+| priya    |  55000 |
+| rohan    |  50000 |
+| puja     |  50000 |
+| akash    |  45000 |
+| snehal   |  38000 |
++----------+--------+
+11 rows in set (0.00 sec)
+
+mysql> select dept_id,salary
+    -> from employee,department
+    -> order by dept_id asc , salary desc;
+ERROR 1052 (23000): Column 'dept_id' in field list is ambiguous
+mysql> select dept_id,salary
+    -> from employee
+    -> order by dept_id asc , salary desc;
++---------+--------+
+| dept_id | salary |
++---------+--------+
+|     101 |  70000 |
+|     101 |  70000 |
+|     101 |  70000 |
+|     102 |  55000 |
+|     102 |  45000 |
+|     103 |  65000 |
+|     103 |  65000 |
+|     103 |  60000 |
+|     104 |  50000 |
+|     104 |  50000 |
+|     104 |  38000 |
++---------+--------+
+11 rows in set (0.00 sec)
+
+mysql> select emp_name , salary
+    -> from employee
+    -> where salary between 30000 and 60000;
++----------+--------+
+| emp_name | salary |
++----------+--------+
+| priya    |  55000 |
+| sneha    |  60000 |
+| rohan    |  50000 |
+| puja     |  50000 |
+| akash    |  45000 |
+| snehal   |  38000 |
++----------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select emp_name , dept_id
+    -> from employee
+    -> where dept_id in(101,103);
++----------+---------+
+| emp_name | dept_id |
++----------+---------+
+| rahul    |     101 |
+| amit     |     101 |
+| sneha    |     103 |
+| karan    |     101 |
+| neha     |     103 |
+| supriya  |     103 |
++----------+---------+
+6 rows in set (0.00 sec)
+
+mysql> select emp_name , min(salary)as low_salary
+    -> from employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'college.employee.emp_name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select min(salary) as low_salary, emp_name
+    -> from employee;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'college.employee.emp_name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select min(salary)
+    -> from employee;
++-------------+
+| min(salary) |
++-------------+
+|       38000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select emp_name, salary
+    -> from employee
+    -> where salary=(select min(salary) from employee);
++----------+--------+
+| emp_name | salary |
++----------+--------+
+| snehal   |  38000 |
++----------+--------+
+1 row in set (0.00 sec)
+
+
+mysql> select * from
+    -> employee
+    -> where hire_date between '2020-01-01' and '2021-12-31';
++--------+----------+----------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email          | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+----------------+--------+------------+---------+------------+--------------+
+|      8 | neha     | neha@gmail.com |  65000 | 2021-09-01 |     103 |          4 | NULL         |
++--------+----------+----------------+--------+------------+---------+------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> insert into employee
+    -> values
+    -> (12,'raj','raj@gmail.com',null,'2026-10-1',104,4,null);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from
+    -> employee
+    -> where salary is null;
++--------+----------+---------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email         | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+---------------+--------+------------+---------+------------+--------------+
+|     12 | raj      | raj@gmail.com |   NULL | 2026-10-01 |     104 |          4 | NULL         |
++--------+----------+---------------+--------+------------+---------+------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee
+    -> where salary = null;
+Empty set (0.01 sec)
+
+mysql> slect * from employee
+    -> where salary = NULL;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'slect * from employee
+where salary = NULL' at line 1
+mysql> select * from employee
+    -> where salary = NULL;
+Empty set (0.00 sec)
+
+mysql> select * from employee
+    -> where salary is not null;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+11 rows in set (0.00 sec)
+
+mysql> select distinct(emp_name)
+    -> from employee;
++----------+
+| emp_name |
++----------+
+| rahul    |
+| priya    |
+| amit     |
+| sneha    |
+| rohan    |
+| puja     |
+| karan    |
+| neha     |
+| akash    |
+| snehal   |
+| supriya  |
+| raj      |
++----------+
+12 rows in set (0.01 sec)
+
+mysql> select department,location,count(dept_id)
+    -> \c
+mysql> select DepartmentName,location,count(dept_id)
+    -> from department
+    -> group by location;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'college.department.DepartmentName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select DepartmentName,location,count(*)
+    -> from department
+    -> group by location;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'college.department.DepartmentName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select location , count(*)
+    -> from department
+    -> group by location;
++----------+----------+
+| location | count(*) |
++----------+----------+
+| pune     |        1 |
+| mumbai   |        1 |
+| nagpur   |        1 |
+| amravati |        1 |
+| Nashik   |        1 |
++----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select DepartmentName,location , count(*)
+    -> from department
+    -> group by DepartmentName and location;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'college.department.DepartmentName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select DepartmentName,location , count(*)
+    -> from department
+    -> group by DepartmentName ,location;
++----------------+----------+----------+
+| DepartmentName | location | count(*) |
++----------------+----------+----------+
+| IT             | pune     |        1 |
+| HR             | mumbai   |        1 |
+| Finance        | nagpur   |        1 |
+| marketing      | amravati |        1 |
+| Sales          | Nashik   |        1 |
++----------------+----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into department values
+    -> (106,'IT','mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from department;
++---------+----------------+----------+
+| dept_id | DepartmentName | location |
++---------+----------------+----------+
+|     101 | IT             | pune     |
+|     102 | HR             | mumbai   |
+|     103 | Finance        | nagpur   |
+|     104 | marketing      | amravati |
+|     105 | Sales          | Nashik   |
+|     106 | IT             | mumbai   |
++---------+----------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select DepartmentName,location, count(*)
+    -> from department
+    -> group by DepartmentName,location;
++----------------+----------+----------+
+| DepartmentName | location | count(*) |
++----------------+----------+----------+
+| IT             | pune     |        1 |
+| HR             | mumbai   |        1 |
+| Finance        | nagpur   |        1 |
+| marketing      | amravati |        1 |
+| Sales          | Nashik   |        1 |
+| IT             | mumbai   |        1 |
++----------------+----------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select DepartmentNAme,location,count(*)
+    -> from department
+    -> group by location;
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'college.department.DepartmentName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql> select location,count(*)
+    -> from department
+    -> group by location;
++----------+----------+
+| location | count(*) |
++----------+----------+
+| pune     |        1 |
+| mumbai   |        2 |
+| nagpur   |        1 |
+| amravati |        1 |
+| Nashik   |        1 |
++----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select DepartmentName, sum(salary)
+    -> from employee,department
+    -> group by DepartmentName;
++----------------+-------------+
+| DepartmentName | sum(salary) |
++----------------+-------------+
+| IT             |     1276000 |
+| Sales          |      638000 |
+| marketing      |      638000 |
+| Finance        |      638000 |
+| HR             |      638000 |
++----------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select DepartmentName,sum(*) as total_salary
+    -> from employee,department
+    -> group by DepartmentName
+    -> having sum(*)>100000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) as total_salary
+from employee,department
+group by DepartmentName
+having sum(*' at line 1
+mysql> select DepartmentName, sum(salary)
+    -> from employee,department
+    -> group by DepartmentName
+    -> having sum(*) >100000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*) >100000' at line 4
+mysql> select DepartmentName, sum(salary)
+    -> from employee,department
+    -> group by DepartmentName;
++----------------+-------------+
+| DepartmentName | sum(salary) |
++----------------+-------------+
+| IT             |     1276000 |
+| Sales          |      638000 |
+| marketing      |      638000 |
+| Finance        |      638000 |
+| HR             |      638000 |
++----------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select DepartmentName, sum(salary)
+    -> from employee,department
+    -> group by DepartmentName
+    -> having sum(salary)>100000;
++----------------+-------------+
+| DepartmentName | sum(salary) |
++----------------+-------------+
+| IT             |     1276000 |
+| Sales          |      638000 |
+| marketing      |      638000 |
+| Finance        |      638000 |
+| HR             |      638000 |
++----------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select DepartmentName, sum(salary)
+    -> from employee,department
+    -> group by DepartmentName
+    -> having sum(salary)>600000;
++----------------+-------------+
+| DepartmentName | sum(salary) |
++----------------+-------------+
+| IT             |     1276000 |
+| Sales          |      638000 |
+| marketing      |      638000 |
+| Finance        |      638000 |
+| HR             |      638000 |
++----------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select DepartmentName, sum(salary)
+    -> from employee,department
+    -> group by DepartmentName
+    -> having sum(salary)>700000;
++----------------+-------------+
+| DepartmentName | sum(salary) |
++----------------+-------------+
+| IT             |     1276000 |
++----------------+-------------+
+1 row in set (0.00 sec)
+
+mysql>
