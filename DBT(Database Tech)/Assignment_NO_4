@@ -1,0 +1,761 @@
+mysql> show databases;
++---------------------------+
+| Database                  |
++---------------------------+
+| collage_db                |
+| company                   |
+| college_db                |
+| information_schema        |
+| library_management_system |
+| mysql                     |
+| performance_schema        |
+| pharmadb                  |
+| shop_stores               |
+| sys                       |
++---------------------------+
+10 rows in set (0.01 sec)
+
+mysql> use company;
+Database changed
+mysql> show tables;
++-------------------+
+| Tables_in_college |
++-------------------+
+| department        |
+| employee          |
++-------------------+
+2 rows in set (0.00 sec)
+
+mysql> create table project(project_id int, project_name varchar(50),emp_id int, budget decimal(10,2), foreign key (emp_id) references employee(emp_id) );
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> select * from project;
+Empty set (0.00 sec)
+
+mysql> INSERT INTO project
+    -> (project_id, project_name, emp_id, budget)
+    -> VALUES
+    -> (201, 'Library Management', 1, 50000),
+    -> (202, 'Payroll System', 2, 75000),
+    -> (203, 'E-Commerce', 3, 100000),
+    -> (204, 'Student Portal', 5, 60000),
+    -> (205, 'CRM System', 7, 90000),
+    -> (206, 'Inventory System', 8, 80000);
+Query OK, 6 rows affected (0.06 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++-------------------+
+| Tables_in_company |
++-------------------+
+| department        |
+| employee          |
+| project           |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from department;
++---------+----------------+----------+
+| dept_id | DepartmentName | location |
++---------+----------------+----------+
+|     101 | IT             | pune     |
+|     102 | HR             | mumbai   |
+|     103 | Finance        | nagpur   |
+|     104 | marketing      | amravati |
+|     105 | Sales          | Nashik   |
+|     106 | IT             | mumbai   |
++---------+----------------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from project;
++------------+--------------------+--------+-----------+
+| project_id | project_name       | emp_id | budget    |
++------------+--------------------+--------+-----------+
+|        201 | Library Management |      1 |  50000.00 |
+|        202 | Payroll System     |      2 |  75000.00 |
+|        203 | E-Commerce         |      3 | 100000.00 |
+|        204 | Student Portal     |      5 |  60000.00 |
+|        205 | CRM System         |      7 |  90000.00 |
+|        206 | Inventory System   |      8 |  80000.00 |
++------------+--------------------+--------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from employee;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+12 rows in set (0.00 sec)
+
+
+mysql> select * from employee cross join department;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+---------+----------------+----------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number | dept_id | DepartmentName | location |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+---------+----------------+----------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |     106 | IT             | mumbai   |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |     105 | Sales          | Nashik   |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |     104 | marketing      | amravati |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |     103 | Finance        | nagpur   |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |     102 | HR             | mumbai   |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |     101 | IT             | pune     |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |     106 | IT             | mumbai   |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |     105 | Sales          | Nashik   |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |     104 | marketing      | amravati |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |     103 | Finance        | nagpur   |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |     102 | HR             | mumbai   |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |     101 | IT             | pune     |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |     106 | IT             | mumbai   |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |     105 | Sales          | Nashik   |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |     104 | marketing      | amravati |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |     103 | Finance        | nagpur   |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |     102 | HR             | mumbai   |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |     101 | IT             | pune     |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |     106 | IT             | mumbai   |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |     105 | Sales          | Nashik   |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |     104 | marketing      | amravati |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |     103 | Finance        | nagpur   |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |     102 | HR             | mumbai   |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |     101 | IT             | pune     |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |     106 | IT             | mumbai   |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |     105 | Sales          | Nashik   |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |     104 | marketing      | amravati |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |     103 | Finance        | nagpur   |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |     102 | HR             | mumbai   |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |     101 | IT             | pune     |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |     106 | IT             | mumbai   |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |     105 | Sales          | Nashik   |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |     104 | marketing      | amravati |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |     103 | Finance        | nagpur   |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |     102 | HR             | mumbai   |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |     101 | IT             | pune     |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |     106 | IT             | mumbai   |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |     105 | Sales          | Nashik   |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |     104 | marketing      | amravati |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |     103 | Finance        | nagpur   |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |     102 | HR             | mumbai   |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |     101 | IT             | pune     |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |     106 | IT             | mumbai   |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |     105 | Sales          | Nashik   |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |     104 | marketing      | amravati |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |     103 | Finance        | nagpur   |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |     102 | HR             | mumbai   |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |     101 | IT             | pune     |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |     106 | IT             | mumbai   |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |     105 | Sales          | Nashik   |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |     104 | marketing      | amravati |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |     103 | Finance        | nagpur   |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |     102 | HR             | mumbai   |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |     101 | IT             | pune     |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |     106 | IT             | mumbai   |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |     105 | Sales          | Nashik   |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |     104 | marketing      | amravati |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |     103 | Finance        | nagpur   |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |     102 | HR             | mumbai   |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |     101 | IT             | pune     |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |     106 | IT             | mumbai   |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |     105 | Sales          | Nashik   |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |     104 | marketing      | amravati |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |     103 | Finance        | nagpur   |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |     102 | HR             | mumbai   |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |     101 | IT             | pune     |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |     106 | IT             | mumbai   |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |     105 | Sales          | Nashik   |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |     104 | marketing      | amravati |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |     103 | Finance        | nagpur   |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |     102 | HR             | mumbai   |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |     101 | IT             | pune     |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+---------+----------------+----------+
+72 rows in set (0.00 sec)
+
+mysql> select e.emp_name,d.dept_name
+    -> from employee as e
+    -> inner join department
+    -> \c
+mysql> select emp_name,d.DepartmentName
+    -> from employee as e
+    -> inner join department as d
+    -> on e.dept_id=d.dept_id;
++----------+----------------+
+| emp_name | DepartmentName |
++----------+----------------+
+| rahul    | IT             |
+| priya    | HR             |
+| amit     | IT             |
+| sneha    | Finance        |
+| rohan    | marketing      |
+| puja     | marketing      |
+| karan    | IT             |
+| neha     | Finance        |
+| akash    | HR             |
+| snehal   | marketing      |
+| supriya  | Finance        |
+| raj      | marketing      |
++----------+----------------+
+12 rows in set (0.00 sec)
+
+mysql> select e.* , d.dept_id , d.location
+    -> from employee as e
+    -> left join department as d
+    -> on e.dept_id=d.dept_id;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+---------+----------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number | dept_id | location |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+---------+----------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |     101 | pune     |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |     102 | mumbai   |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |     101 | pune     |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |     103 | nagpur   |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |     104 | amravati |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |     104 | amravati |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |     101 | pune     |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |     103 | nagpur   |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |     102 | mumbai   |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |     104 | amravati |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |     103 | nagpur   |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |     104 | amravati |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+---------+----------+
+12 rows in set (0.00 sec)
+
+mysql> select e.* , d.DepartmentName,d.location
+    -> from employee as e
+    -> left join department as d
+    -> on e.dept_id = d.dept_id;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+----------------+----------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number | DepartmentName | location |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+----------------+----------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         | IT             | pune     |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         | HR             | mumbai   |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         | IT             | pune     |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         | Finance        | nagpur   |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         | marketing      | amravati |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         | marketing      | amravati |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         | IT             | pune     |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         | Finance        | nagpur   |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         | HR             | mumbai   |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         | marketing      | amravati |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         | Finance        | nagpur   |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         | marketing      | amravati |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+----------------+----------+
+12 rows in set (0.00 sec)
+
+mysql> select e.* , d.*
+    -> from employee as e
+    -> left join department as d
+    -> on e.dept_id=d.dept_id;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+---------+----------------+----------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number | dept_id | DepartmentName | location |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+---------+----------------+----------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |     101 | IT             | pune     |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |     102 | HR             | mumbai   |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |     101 | IT             | pune     |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |     103 | Finance        | nagpur   |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |     104 | marketing      | amravati |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |     104 | marketing      | amravati |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |     101 | IT             | pune     |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |     103 | Finance        | nagpur   |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |     102 | HR             | mumbai   |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |     104 | marketing      | amravati |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |     103 | Finance        | nagpur   |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |     104 | marketing      | amravati |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+---------+----------------+----------+
+12 rows in set (0.00 sec)
+
+mysql> select e.* , d.DepartmentName , d.location
+    -> from employee as e
+    -> right join department as d
+    -> on e.dept_id=d.dept_id;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+----------------+----------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number | DepartmentName | location |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+----------------+----------+
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         | IT             | pune     |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         | IT             | pune     |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         | IT             | pune     |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         | HR             | mumbai   |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         | HR             | mumbai   |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         | Finance        | nagpur   |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         | Finance        | nagpur   |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         | Finance        | nagpur   |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         | marketing      | amravati |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         | marketing      | amravati |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         | marketing      | amravati |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         | marketing      | amravati |
+|   NULL | NULL     | NULL              |   NULL | NULL       |    NULL |       NULL | NULL         | Sales          | Nashik   |
+|   NULL | NULL     | NULL              |   NULL | NULL       |    NULL |       NULL | NULL         | IT             | mumbai   |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+----------------+----------+
+14 rows in set (0.00 sec)
+
+mysql> select * from employee
+    -> natural join department;
++---------+--------+----------+-------------------+--------+------------+------------+--------------+----------------+----------+
+| dept_id | emp_id | emp_name | email             | salary | hire_date  | manager_id | phone_number | DepartmentName | location |
++---------+--------+----------+-------------------+--------+------------+------------+--------------+----------------+----------+
+|     101 |      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |       NULL | NULL         | IT             | pune     |
+|     102 |      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |          1 | NULL         | HR             | mumbai   |
+|     101 |      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |          1 | NULL         | IT             | pune     |
+|     103 |      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |          2 | NULL         | Finance        | nagpur   |
+|     104 |      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |          2 | NULL         | marketing      | amravati |
+|     104 |      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |          1 | NULL         | marketing      | amravati |
+|     101 |      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |          3 | NULL         | IT             | pune     |
+|     103 |      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |          4 | NULL         | Finance        | nagpur   |
+|     102 |      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |          2 | NULL         | HR             | mumbai   |
+|     104 |     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |          5 | NULL         | marketing      | amravati |
+|     103 |     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |          1 | NULL         | Finance        | nagpur   |
+|     104 |     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |          4 | NULL         | marketing      | amravati |
++---------+--------+----------+-------------------+--------+------------+------------+--------------+----------------+----------+
+12 rows in set (0.00 sec)
+
+
+
+mysql> select * from employee cross join project;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+------------+--------------------+--------+-----------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number | project_id | project_name       | emp_id | budget    |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+------------+--------------------+--------+-----------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |        201 | Library Management |      1 |  50000.00 |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |        201 | Library Management |      1 |  50000.00 |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |        206 | Inventory System   |      8 |  80000.00 |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |        205 | CRM System         |      7 |  90000.00 |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |        204 | Student Portal     |      5 |  60000.00 |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |        203 | E-Commerce         |      3 | 100000.00 |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |        202 | Payroll System     |      2 |  75000.00 |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |        201 | Library Management |      1 |  50000.00 |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+------------+--------------------+--------+-----------+
+72 rows in set (0.00 sec)
+
+mysql> create table empBackup like employee;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc empbackup;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| emp_id       | int         | NO   | PRI | NULL    |       |
+| emp_name     | varchar(50) | YES  |     | NULL    |       |
+| email        | varchar(50) | YES  |     | NULL    |       |
+| salary       | int         | YES  |     | NULL    |       |
+| hire_date    | date        | YES  |     | NULL    |       |
+| dept_id      | int         | YES  |     | NULL    |       |
+| manager_id   | int         | YES  |     | NULL    |       |
+| phone_number | varchar(15) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.08 sec)
+
+mysql> insert into empbackup
+    -> select * from employee;
+Query OK, 12 rows affected (0.02 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+mysql> select * from empbackup;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+12 rows in set (0.00 sec)
+
+mysql> create table ProjectArchive like project;
+Query OK, 0 rows affected (0.08 sec)
+
+mysql>
+mysql> desc project;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| project_id   | int           | YES  |     | NULL    |       |
+| project_name | varchar(50)   | YES  |     | NULL    |       |
+| emp_id       | int           | YES  | MUL | NULL    |       |
+| budget       | decimal(10,2) | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> drop projectarchive;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'projectarchive' at line 1
+mysql> drop table projectarchive;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table projectarchive like project
+    -> insert into projectarchive
+    -> select * from project;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'insert into projectarchive
+select * from project' at line 2
+mysql>
+mysql> create table projecArchive as project;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'project' at line 1
+mysql>
+mysql>
+mysql> create table projectarchive as
+    -> select * from project;
+Query OK, 6 rows affected (0.05 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from projectarchive;
++------------+--------------------+--------+-----------+
+| project_id | project_name       | emp_id | budget    |
++------------+--------------------+--------+-----------+
+|        201 | Library Management |      1 |  50000.00 |
+|        202 | Payroll System     |      2 |  75000.00 |
+|        203 | E-Commerce         |      3 | 100000.00 |
+|        204 | Student Portal     |      5 |  60000.00 |
+|        205 | CRM System         |      7 |  90000.00 |
+|        206 | Inventory System   |      8 |  80000.00 |
++------------+--------------------+--------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> alter table employee
+    -> modify column emp_id int auto_increment primary key;
+ERROR 1068 (42000): Multiple primary key defined
+mysql> alter table employee
+    -> modify column emp_id int primary key auto_increment;
+ERROR 1068 (42000): Multiple primary key defined
+mysql> alter table employee
+    -> modify column emp_id int;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter employee
+    ->
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'employee' at line 1
+mysql> alter table employee
+    -> change column emp_id int primary key auto_increment;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int primary key auto_increment' at line 2
+mysql> alter table employee
+    -> modify column emp_id int primary key;
+ERROR 1068 (42000): Multiple primary key defined
+mysql> alter table employee
+    -> modify column emp_id int auto_increment;
+ERROR 1833 (HY000): Cannot change column 'emp_id': used in a foreign key constraint 'project_ibfk_1' of table 'college.project'
+mysql> desc employee;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| emp_id       | int         | NO   | PRI | NULL    |       |
+| emp_name     | varchar(50) | YES  |     | NULL    |       |
+| email        | varchar(50) | YES  |     | NULL    |       |
+| salary       | int         | YES  |     | NULL    |       |
+| hire_date    | date        | YES  |     | NULL    |       |
+| dept_id      | int         | YES  |     | NULL    |       |
+| manager_id   | int         | YES  |     | NULL    |       |
+| phone_number | varchar(15) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> alter table project
+    -> drop foreign key project_ibfk_1;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee
+    -> modify column emp_id int autoi_increment;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'autoi_increment' at line 2
+mysql>
+mysql> alter table employee
+    -> modify emp_id int auto_increment;
+Query OK, 12 rows affected (0.10 sec)
+Records: 12  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| emp_id       | int         | NO   | PRI | NULL    | auto_increment |
+| emp_name     | varchar(50) | YES  |     | NULL    |                |
+| email        | varchar(50) | YES  |     | NULL    |                |
+| salary       | int         | YES  |     | NULL    |                |
+| hire_date    | date        | YES  |     | NULL    |                |
+| dept_id      | int         | YES  |     | NULL    |                |
+| manager_id   | int         | YES  |     | NULL    |                |
+| phone_number | varchar(15) | YES  |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> inset into employee (emp_name,emial,salary,hire_date,dept_id,manager_id,phone_number)
+    -> values
+    -> ('Manish','manish@gmail.com',75000,'2025-02-21',1,3,null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'inset into employee (emp_name,emial,salary,hire_date,dept_id,manager_id,phone_nu' at line 1
+mysql> insert into employee (emp_name,emial,salary,hire_date,dept_id,manager_id,phone_number)
+    -> values
+    -> ('Manish','manish@gmail.com',75000,'2025-02-21',1,3,null);
+ERROR 1054 (42S22): Unknown column 'emial' in 'field list'
+mysql> insert into employee (emp_name,emial,salary,hire_date,dept_id,manager_id,phone_number)
+    -> values
+    -> \c
+mysql> insert into employee (emp_name,email,salary,hire_date,dept_id,manager_id,phone_number)
+    -> values
+    -> ('Manish','manish@gmail.com',75000,'2025-02-21',1,3,null);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from employee;
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email             | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+|      1 | rahul    | rahul@gmail.com   |  70000 | 2024-01-15 |     101 |       NULL | NULL         |
+|      2 | priya    | priya@gmail.com   |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      3 | amit     | amit@gmail.com    |  70000 | 2025-02-20 |     101 |          1 | NULL         |
+|      4 | sneha    | sneha@gmail.com   |  60000 | 2022-11-05 |     103 |          2 | NULL         |
+|      5 | rohan    | rohan@gmail.com   |  50000 | 2024-08-12 |     104 |          2 | NULL         |
+|      6 | puja     | puja@gmail.com    |  50000 | 2023-03-18 |     104 |          1 | NULL         |
+|      7 | karan    | karan@gmail.com   |  70000 | 2025-05-25 |     101 |          3 | NULL         |
+|      8 | neha     | neha@gmail.com    |  65000 | 2021-09-01 |     103 |          4 | NULL         |
+|      9 | akash    | akash@gmail.com   |  45000 | 2024-12-10 |     102 |          2 | NULL         |
+|     10 | snehal   | snehal@gmail.com  |  38000 | 2025-07-14 |     104 |          5 | NULL         |
+|     11 | supriya  | supriya@gmail.com |  65000 | 2024-06-01 |     103 |          1 | NULL         |
+|     12 | raj      | raj@gmail.com     |   NULL | 2026-10-01 |     104 |          4 | NULL         |
+|     13 | Manish   | manish@gmail.com  |  75000 | 2025-02-21 |       1 |          3 | NULL         |
++--------+----------+-------------------+--------+------------+---------+------------+--------------+
+13 rows in set (0.00 sec)
+
+mysql> select emp_name , salary , avg(salary) as avgSalary from employee > select avg(salary) from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '> select avg(salary) from employee' at line 1
+mysql> select emp_name , salary , avg(salary) as avgSalary from employee > select avg(salary) from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '> select avg(salary) from employee' at line 1
+mysql> select emp_name , salary , avg(salary) as avgSalary from employee where salary > select avg(salary) from employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select avg(salary) from employee' at line 1
+mysql> select emp_name , salary
+    -> from employee
+    -> where salary > (select avg(salary) from employee);
++----------+--------+
+| emp_name | salary |
++----------+--------+
+| rahul    |  70000 |
+| amit     |  70000 |
+| sneha    |  60000 |
+| karan    |  70000 |
+| neha     |  65000 |
+| supriya  |  65000 |
+| Manish   |  75000 |
++----------+--------+
+7 rows in set (0.04 sec)
+
+mysql> select emp_name , salary , avg(salary) as AvgSalary
+    -> from employee
+    -> where salary > (select avg(salary) from employee);
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'college.employee.emp_name'; this is incompatible with sql_mode=only_full_group_by
+mysql> select avg(salary) from employee;
++-------------+
+| avg(salary) |
++-------------+
+|  59416.6667 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select e.emp_name , d.location from employee as e ,department as d
+    -> where in (select dept_id from department where location='mumbai');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'in (select dept_id from department where location='mumbai')' at line 2
+mysql> select e.emp_name , d.location from employee as e , department as d
+    -> where location (select location from department where DepartmetName ='IT');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'select location from department where DepartmetName ='IT')' at line 2
+mysql> select location from department where DepartmentName='IT';
++----------+
+| location |
++----------+
+| pune     |
+| mumbai   |
++----------+
+2 rows in set (0.01 sec)
+
+mysql> select e.emp_name , d.location from employee as e , department as d
+    ->  where location = (select location from department where dept_id in (106,102));
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql> select location from department where dept_id in (106,102);
++----------+
+| location |
++----------+
+| mumbai   |
+| mumbai   |
++----------+
+2 rows in set (0.00 sec)
+
+mysql> select distinct(location) from department where dept_id in (106,102);
++----------+
+| location |
++----------+
+| mumbai   |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select e.emp_name , d.location from employee as e , department as d
+    -> where location = (select distinct (location) from department where dept_id in (106,102));
++----------+----------+
+| emp_name | location |
++----------+----------+
+| rahul    | mumbai   |
+| rahul    | mumbai   |
+| priya    | mumbai   |
+| priya    | mumbai   |
+| amit     | mumbai   |
+| amit     | mumbai   |
+| sneha    | mumbai   |
+| sneha    | mumbai   |
+| rohan    | mumbai   |
+| rohan    | mumbai   |
+| puja     | mumbai   |
+| puja     | mumbai   |
+| karan    | mumbai   |
+| karan    | mumbai   |
+| neha     | mumbai   |
+| neha     | mumbai   |
+| akash    | mumbai   |
+| akash    | mumbai   |
+| snehal   | mumbai   |
+| snehal   | mumbai   |
+| supriya  | mumbai   |
+| supriya  | mumbai   |
+| raj      | mumbai   |
+| raj      | mumbai   |
+| Manish   | mumbai   |
+| Manish   | mumbai   |
++----------+----------+
+26 rows in set (0.00 sec)
+
+mysql> select distinct(e.emp_name) , distinct(d.location) from employee as e , department as d
+    -> where location = (select distinct (location) from department where dept_id in (106,102));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'distinct(d.location) from employee as e , department as d
+where location = (sele' at line 1
+mysql> SELECT *
+    -> FROM employee
+    -> WHERE dept_id IN (
+    ->     SELECT dept_id
+    ->     FROM department
+    ->     WHERE location = 'mumbai'
+    -> );
++--------+----------+-----------------+--------+------------+---------+------------+--------------+
+| emp_id | emp_name | email           | salary | hire_date  | dept_id | manager_id | phone_number |
++--------+----------+-----------------+--------+------------+---------+------------+--------------+
+|      2 | priya    | priya@gmail.com |  55000 | 2023-06-10 |     102 |          1 | NULL         |
+|      9 | akash    | akash@gmail.com |  45000 | 2024-12-10 |     102 |          2 | NULL         |
++--------+----------+-----------------+--------+------------+---------+------------+--------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT e.emp_name , d.location
+    -> FROM employee , department
+    -> WHERE dept_id IN (
+    ->     SELECT dept_id
+    ->     FROM department
+    ->     WHERE location = 'mumbai'
+    -> );
+ERROR 1054 (42S22): Unknown column 'e.emp_name' in 'field list'
+mysql> select e.emp_name , d.location
+    -> from employee as e , department as d
+    -> where dept_id in (select dept_id from department where location='mumbai');
+ERROR 1052 (23000): Column 'dept_id' in IN/ALL/ANY subquery is ambiguous
+mysql>
+
+mysql> select * from department where dept_id in ( select dept_id from employee group by dept_id having count(*)>2);
++---------+----------------+----------+
+| dept_id | DepartmentName | location |
++---------+----------------+----------+
+|     101 | IT             | pune     |
+|     103 | Finance        | nagpur   |
+|     104 | marketing      | amravati |
++---------+----------------+----------+
+3 rows in set (0.02 sec)
+
+mysql> select emp_name , salary from employee
+    -> where salary in (select max(salary) from employee);
++----------+--------+
+| emp_name | salary |
++----------+--------+
+| Manish   |  75000 |
++----------+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT
+    ->     d1.DepartmentName AS Department1,
+    ->     d1.location,
+    ->     d2.DepartmentName AS Department2
+    -> FROM department AS d1
+    -> INNER JOIN department AS d2
+    ->     ON d1.location = d2.location
+    ->     AND d1.dept_id < d2.dept_id;
++-------------+----------+-------------+
+| Department1 | location | Department2 |
++-------------+----------+-------------+
+| HR          | mumbai   | IT          |
++-------------+----------+-------------+
+1 row in set (0.02 sec)
